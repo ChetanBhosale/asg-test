@@ -11,17 +11,25 @@ app.get('/', (req, res) => {
 })
 
 app.get('/hard', (req, res) => {
-    console.time('hardTask')  
+    const instanceId = process.env.pm_id ?? 'unknown'
+    console.log(`Instance ${instanceId} started hardTask`)
+
+    console.time(`hardTask_${instanceId}`)
+
     let count = 0
     for (let i = 0; i < 100000000; i++) {
         count += i
     }
-    console.timeEnd('hardTask') 
+
+    console.timeEnd(`hardTask_${instanceId}`)
+    console.log(`Instance ${instanceId} completed hardTask`)
+
     res.status(200).json({
-        message: "Hard task completed",
+        message: `Hard task completed by instance ${instanceId}`,
         result: count
     })
 })
+
 
 const port = 8080
 app.listen(port, () => {
